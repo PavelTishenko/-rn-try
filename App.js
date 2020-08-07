@@ -29,7 +29,7 @@ import {
 import {ListComponent} from './components/List-component'
 
 const App = () => {
-  const [textArr, setTextArr] = useState([{id: Date.now().toString(), txt: 'Hi'}])
+  const [textArr, setTextArr] = useState([])
   const [textValue, setTextValue] = useState('')
   const btnPress = () => {
     const newTextArr = [
@@ -40,13 +40,15 @@ const App = () => {
     ]
     if(textValue.trim()){
       setTextArr(prev => [...prev, newTextArr])
+      setTextValue('')
     }
-    console.log(textArr);
+    
   }
- const renderList = ({item}) => {
-  return <ListComponent title={item.txt}/>
- } 
- 
+  // console.log(textArr)
+//  const renderList = ({item}) => {
+//    console.log(item);
+//   return <ListComponent title={item}/>
+//  }
    return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -57,17 +59,20 @@ const App = () => {
               <Text style={styles.text}>Lesson number one</Text>
             </View>
             <View style={styles.input} >
-              <TextInput 
+              <TextInput
+                value={textValue} 
                 onChangeText={text=>setTextValue(text)}
                 placeholder="Type here your data"/>
                 <Button  onPress={btnPress} title="Submit"/>
             </View>
           </View>
-          <View>
+          <View style={styles.flatContainer}>
             <FlatList
+              keyExtractor={(_item, index)=>index.toString()}
               data={textArr}
-              renderItem={renderList}
-              keyExtractor={item=>item.id}
+              renderItem={({item}) => {
+                return <ListComponent title={item}/>
+              }}
               />
           </View>
         {/* </ScrollView> */}
@@ -95,6 +100,10 @@ const styles = StyleSheet.create({
   },
   btn:{
    
+  },
+  flatContainer:{
+    height: 200,
+    backgroundColor: 'purple'
   }
 
 });

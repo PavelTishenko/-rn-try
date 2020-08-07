@@ -2,11 +2,8 @@ import * as React from 'react'
 import { Text } from 'react-native'
 
 export const ListComponent = ({title}) => {
-    
-    return(
-        <>
-            <Text>{title}</Text>
-        </>
-    )
+    console.log(title[0].txt);
+return <Text>{title[0].txt}</Text>
+     
 }
 
