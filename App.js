@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,6 +14,9 @@ import {
   View,
   Text,
   StatusBar,
+  TextInput,
+  Button,
+  FlatList
 } from 'react-native';
 
 import {
@@ -23,17 +26,51 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {ListComponent} from './components/List-component'
 
 const App = () => {
-  return (
+  const [textArr, setTextArr] = useState([{id: Date.now().toString(), txt: 'Hi'}])
+  const [textValue, setTextValue] = useState('')
+  const btnPress = () => {
+    const newTextArr = [
+      {
+        id: Date.now().toString(),
+        txt: textValue
+      }
+    ]
+    if(textValue.trim()){
+      setTextArr(prev => [...prev, newTextArr])
+    }
+    console.log(textArr);
+  }
+ const renderList = ({item}) => {
+  return <ListComponent title={item.txt}/>
+ } 
+ 
+   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <ScrollView>
+        {/* <ScrollView> */}
           <View style={styles.text_container}>
-            <Text style={styles.text}>Lesson number one</Text>
+            <View>
+              <Text style={styles.text}>Lesson number one</Text>
+            </View>
+            <View style={styles.input} >
+              <TextInput 
+                onChangeText={text=>setTextValue(text)}
+                placeholder="Type here your data"/>
+                <Button  onPress={btnPress} title="Submit"/>
+            </View>
           </View>
-        </ScrollView>
+          <View>
+            <FlatList
+              data={textArr}
+              renderItem={renderList}
+              keyExtractor={item=>item.id}
+              />
+          </View>
+        {/* </ScrollView> */}
       </SafeAreaView>
     </>
   );
@@ -41,7 +78,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
   text_container:{
-    height: 200,
+    height: 300,
     alignItems: 'center',
     justifyContent:'center',
     backgroundColor: 'black'
@@ -49,6 +86,15 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: 'white'
+  },
+  input:{
+    backgroundColor: 'white',
+    padding: 3,
+    borderRadius: 5,
+    marginTop: 8
+  },
+  btn:{
+   
   }
 
 });
