@@ -27,51 +27,44 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {ListComponent} from './components/List-component'
-
+import {AddTodo} from './components/AddTodo'
 const App = () => {
-  const [textArr, setTextArr] = useState([])
+  const [textArr, setTextArr] = useState([{txt: 'One more', id:Math.floor(Math.random() * 10)}])
   const [textValue, setTextValue] = useState('')
+  
   const btnPress = () => {
-    const newTextArr = [
+    const newTextArr = 
       {
-        id: Date.now().toString(),
+        id: Math.floor(Math.random() * 10),
         txt: textValue
       }
-    ]
-    if(textValue.trim()){
+       
       setTextArr(prev => [...prev, newTextArr])
       setTextValue('')
-    }
-    
   }
-  // console.log(textArr)
-//  const renderList = ({item}) => {
-//    console.log(item);
-//   return <ListComponent title={item}/>
-//  }
+
+  const onFilter = (id) => {
+    setTextArr(prev=>prev.filter(el=>el.id !== id))
+  }
+ console.log(textArr);
    return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         {/* <ScrollView> */}
           <View style={styles.text_container}>
-            <View>
+            <View style={{flex: 1}}>
               <Text style={styles.text}>Lesson number one</Text>
             </View>
-            <View style={styles.input} >
-              <TextInput
-                value={textValue} 
-                onChangeText={text=>setTextValue(text)}
-                placeholder="Type here your data"/>
-                <Button  onPress={btnPress} title="Submit"/>
-            </View>
+            <AddTodo btnPress={btnPress} setTextValue={setTextValue} textValue={textValue}/>
           </View>
           <View style={styles.flatContainer}>
             <FlatList
               keyExtractor={(_item, index)=>index.toString()}
               data={textArr}
               renderItem={({item}) => {
-                return <ListComponent title={item}/>
+                
+                return <ListComponent onFilter={onFilter} txt={item.txt} id={item.id}/>
               }}
               />
           </View>
@@ -84,6 +77,7 @@ const App = () => {
 const styles = StyleSheet.create({
   text_container:{
     height: 300,
+    // flex: 1,
     alignItems: 'center',
     justifyContent:'center',
     backgroundColor: 'black'
@@ -92,18 +86,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white'
   },
-  input:{
-    backgroundColor: 'white',
-    padding: 3,
-    borderRadius: 5,
-    marginTop: 8
-  },
+  
   btn:{
    
   },
   flatContainer:{
     height: 200,
-    backgroundColor: 'purple'
+    backgroundColor: 'purple',
+    alignItems:'center'
   }
 
 });
