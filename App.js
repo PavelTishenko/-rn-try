@@ -6,17 +6,16 @@
  * @flow strict-local
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
   View,
   Text,
   StatusBar,
-  TextInput,
-  Button,
-  FlatList
+  FlatList,
+  ImageBackground
 } from 'react-native';
 
 import {
@@ -25,7 +24,7 @@ import {
   Colors,
   DebugInstructions,
   ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+} from 'react-native/Libraries/NewAppScreen'
 import {ListComponent} from './components/List-component'
 import {AddTodo} from './components/AddTodo'
 const App = () => {
@@ -46,30 +45,33 @@ const App = () => {
   const onFilter = (id) => {
     setTextArr(prev=>prev.filter(el=>el.id !== id))
   }
- console.log(textArr);
    return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
+      
+        <View>
         {/* <ScrollView> */}
           <View style={styles.text_container}>
-            <View style={{flex: 1}}>
-              <Text style={styles.text}>Lesson number one</Text>
+            {/* In ImageBackground you will need to use style prop 100% */}
+            <ImageBackground source={require('./images/water.jpeg')} style={styles.image}>
+            <View style={styles.image_container}>
+                <Text style={styles.text}>ToDo App</Text>
             </View>
             <AddTodo btnPress={btnPress} setTextValue={setTextValue} textValue={textValue}/>
+            </ImageBackground>
           </View>
           <View style={styles.flatContainer}>
             <FlatList
               keyExtractor={(_item, index)=>index.toString()}
               data={textArr}
               renderItem={({item}) => {
-                
                 return <ListComponent onFilter={onFilter} txt={item.txt} id={item.id}/>
               }}
+              contentContainerStyle={{flexGrow:1}}
               />
           </View>
-        {/* </ScrollView> */}
-      </SafeAreaView>
+          </View>
+        
     </>
   );
 };
@@ -84,16 +86,25 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    color: 'white'
+    color: 'black',
+    fontWeight: 'bold'
   },
   
   btn:{
    
   },
   flatContainer:{
-    height: 200,
-    backgroundColor: 'purple',
+    // height: 200,
+    backgroundColor: 'teal',
     alignItems:'center'
+  },
+  image:{
+    width: '100%',
+    height: '100%'
+  },
+  image_container:{
+    flex: 1, 
+    alignItems: 'center'
   }
 
 });

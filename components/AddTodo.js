@@ -1,14 +1,22 @@
 import React from 'react'
-import { View, Button, StyleSheet, TextInput } from 'react-native'
-
+import { View, StyleSheet, TextInput } from 'react-native'
+import { Button, ThemeProvider } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 export const AddTodo = ({btnPress, setTextValue, textValue}) => {
     return (
         <View style={styles.input} >
               <TextInput
                 value={textValue} 
                 onChangeText={text=>setTextValue(text)}
-                placeholder="Type here your data"/>
-                <Button  onPress={btnPress} title="Submit"/>
+                placeholder="Type here your data"/>      
+                <Button  
+                    onPress={btnPress} title="Add New"
+                    type="solid"
+                    icon={
+                        <Icon name='done' size={20} color='white'/>
+                    }
+                    />
+                
         </View>
     )
 }
