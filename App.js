@@ -47,11 +47,8 @@ const App = () => {
   }
    return (
     <>
-      <StatusBar barStyle="dark-content" />
-      
-        <View>
-        {/* <ScrollView> */}
-          <View style={styles.text_container}>
+      <StatusBar barStyle="dark-content" />    
+                  <View style={styles.text_container}>
             {/* In ImageBackground you will need to use style prop 100% */}
             <ImageBackground source={require('./images/water.jpeg')} style={styles.image}>
             <View style={styles.image_container}>
@@ -60,6 +57,7 @@ const App = () => {
             <AddTodo btnPress={btnPress} setTextValue={setTextValue} textValue={textValue}/>
             </ImageBackground>
           </View>
+          <ScrollView>
           <View style={styles.flatContainer}>
             <FlatList
               keyExtractor={(_item, index)=>index.toString()}
@@ -67,11 +65,10 @@ const App = () => {
               renderItem={({item}) => {
                 return <ListComponent onFilter={onFilter} txt={item.txt} id={item.id}/>
               }}
-              contentContainerStyle={{flexGrow:1}}
-              />
+              // contentContainerStyle={{flexGrow:1}}
+              />             
           </View>
-          </View>
-        
+          </ScrollView>       
     </>
   );
 };
@@ -79,7 +76,6 @@ const App = () => {
 const styles = StyleSheet.create({
   text_container:{
     height: 300,
-    // flex: 1,
     alignItems: 'center',
     justifyContent:'center',
     backgroundColor: 'black'
@@ -94,7 +90,6 @@ const styles = StyleSheet.create({
    
   },
   flatContainer:{
-    // height: 200,
     backgroundColor: 'teal',
     alignItems:'center'
   },
